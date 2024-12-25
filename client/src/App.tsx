@@ -9,13 +9,13 @@ function App() {
 
   return (
     <>
-    <div className='flex stretch w-full h-full' >
+    <div className='flex stretch min-h-full h-full'>
       <aside>
         <SideBar />
       </aside>
       <main className='bg-background flex-grow text-white'>
         <Routes>
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/employeeList" element={<EmployeeList />} />
           <Route path="/employeeRequests" element={<EmployeeMessages />} />
         </Routes>

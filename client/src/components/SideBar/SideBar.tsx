@@ -15,15 +15,14 @@ export default function SideBar(){
   };
 
   return (
-    <Sidebar style={{height: '100vh'}}
-    collapsed={collapsed}
+    <Sidebar collapsed={collapsed}
     rootStyles={{
       [`.${sidebarClasses.container}`]: {
         backgroundColor: '#3C3D37',
         marginRight: '-1px',
       },
     }}>
-      <Menu style={{color: 'white', fontSize: '18px'}} menuItemStyles={{
+      <Menu className='text-lg text-white' menuItemStyles={{
         button: {
           '&:hover':{
             backgroundColor: 'black'
@@ -34,7 +33,7 @@ export default function SideBar(){
           <div className='mb-6'>
             <MenuItem style={{textAlign: 'center'}} icon= {<MenuIcon />} onClick={() => handleToggleSidebar()}>Admin</MenuItem>
           </div>
-          <MenuItem icon= {<AccountBoxIcon/>} component={<Link to="/home" />}>Home</MenuItem>
+          <MenuItem icon= {<AccountBoxIcon/>} component={<Link to="/" />}>Home</MenuItem>
           <MenuItem icon= {<GroupIcon/>} component={<Link to="/employeeList" />}>Employee List</MenuItem>
           <MenuItem icon= {<QuestionAnswerIcon/>} component={<Link to="/employeeRequests" />}>Employee Requests</MenuItem>
           <MenuItem className='mt-auto' icon= {<LogoutIcon/>} component={<Link to="/login" />}>Logout</MenuItem>
