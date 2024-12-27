@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
-import { Employee } from '../../types';
+import { Employee } from '../../types/types';
 
 const columns: GridColDef[] = [
   { field: 'id', type: 'number', headerName: 'ID', width: 50 },
@@ -9,7 +9,7 @@ const columns: GridColDef[] = [
   { field: 'phone', headerName: 'Phone', width: 130, editable: true},
   { field: 'department', headerName: 'Department', width: 100, editable: true},
   { field: 'position', headerName: 'Position', width: 160, editable: true},
-  { field: 'dateHired', type: 'date', headerName: 'Date Hired', width: 150, editable: true},
+  { field: 'dateHired', headerName: 'Date Hired', width: 120, editable: true},
   { field: 'salary', type: 'number', headerName: 'Salary', width: 100,  editable: true,},
   { field: 'status', type: 'singleSelect' , headerName: 'Status', width: 150, valueOptions: ['Active', 'Inactive', 'Terminated'], editable: true},
 ];

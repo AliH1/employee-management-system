@@ -5,7 +5,7 @@ export type Employee = {
     phone: string;
     department: string;
     position: string;
-    dateHired: Date;
+    dateHired: string;
     salary: number;
     status: string;
 }
@@ -15,7 +15,7 @@ export interface message {
     name: string;
     title: string;
     message: string;
-    date: Date;
+    date: string;
 }
 
 export interface adminMessage extends message {

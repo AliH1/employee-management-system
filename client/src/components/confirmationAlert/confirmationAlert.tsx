@@ -6,6 +6,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
 
+//credit to https://dev.to/akshaysrepo/building-a-confirmation-dialog-component-with-react-and-material-ui-4468
+
 type confirmationAlertProps = {
   children: (showDialog: () => void) => JSX.Element;
   title: string;
@@ -61,3 +63,4 @@ function confirmationAlert({ children, title, description, response }: confirmat
 }
 
 export default confirmationAlert;
+

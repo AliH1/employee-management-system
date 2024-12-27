@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import { Employee } from "../../types";
+import { Employee } from "../../types/types";
 import { BarChart } from "@mui/x-charts";
 import { useMemo } from "react";
 

@@ -8,19 +8,27 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import {UserContext } from '../../Context/UserContext';
 import Button from "@mui/material/Button";
-import { getISODate } from '../../utils/utils';
-import ConfirmationAlert from "../confirmationAlert/confirmationAlert";
+import dayjs from 'dayjs';
+import ConfirmationAlert from "../ConfirmationAlert/ConfirmationAlert";
+
 
 
 export default function Home() {
   const [messages, setMessages] = useState<message[]>(List);
+  const [title, setTitle] = useState<string>('');
+  const [messageBody, setMessageBody] = useState<string>('');
   const [titleError, setTitleError] = useState<string>('');
   const [messageError, setMessageError] = useState<string>('');
   const {user} = useContext(UserContext);
-  const [title, setTitle] = useState<string>('');
-  const [messageBody, setMessageBody] = useState<string>('');
+
+  const resetErrorMessages = () => {
+    setTitleError('');
+    setMessageError('');
+  }
+
 
   const handleSend = () => {
+    resetErrorMessages();
     if(messageBody === '') {
       setMessageError('Fill out message');
     }
@@ -34,14 +42,13 @@ export default function Home() {
       setMessageError('Message must be less than 1000 characters');
     }
     else{
-      setMessageError('');
-      setTitleError('');
+      resetErrorMessages();
       const message: message = {
         id: messages.length + 1,
         title: title,
         name: user.name,
         message: messageBody,
-        date: getISODate()
+        date: dayjs().format('MM/DD/YYYY')
       };
       setMessages([...messages, message]);
       setTitle('');
@@ -58,6 +65,7 @@ export default function Home() {
         <Box className='w-4/5'>
           <Box className='flex flex-col gap-4'>
             <TextField value={title}
+                    required
                     onChange={(e) => setTitle(e.target.value)}
                     size='small'
                     id='title'
@@ -66,6 +74,7 @@ export default function Home() {
                     helperText={titleError}
                     fullWidth/>
             <TextField value={messageBody}
+                    required
                     onChange={(e) => setMessageBody(e.target.value)}
                     id='message'
                     label='Message'

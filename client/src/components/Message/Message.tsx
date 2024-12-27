@@ -18,11 +18,14 @@ export default function Message({ id ,title, name, message, date, expand} : Mess
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          <Typography component="span" sx={{ width: '70%', flexShrink: 0, fontWeight: 'bold' }}>
+          <Typography component="span" sx={{ width: '60%', flexShrink: 0, fontWeight: 'bold' }}>
             {title}
           </Typography>
-          <Typography component="span" sx={{ color: 'text.secondary' }}>
-              By: {name}, at {date.toDateString()}
+          <Typography component="span" sx={{ width: '30%', flexShrink: 0, color: 'text.secondary' }}>
+             {name}
+          </Typography>
+          <Typography component="span">
+            {date}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>

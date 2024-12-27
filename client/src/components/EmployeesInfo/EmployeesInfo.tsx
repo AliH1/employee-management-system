@@ -3,7 +3,7 @@ import { List } from './TestEmployees';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import EmployeeList from './EmployeeList';
-import { Employee} from '../../types';
+import { Employee} from '../../types/types';
 import EmployeesChart from './EmployeesChart';
 
 export default function EmployeesInfo() {

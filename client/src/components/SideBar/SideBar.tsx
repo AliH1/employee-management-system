@@ -9,6 +9,8 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PasswordIcon from '@mui/icons-material/Password';
 import {UserContext } from '../../Context/UserContext';
+import SendRequest from '../SendRequest/SendRequest';
+
 
 
 export default function SideBar(){
@@ -42,12 +44,22 @@ export default function SideBar(){
           <div className='mb-6'>
             <MenuItem style={{textAlign: 'center'}} icon= {<MenuIcon />} onClick={() => handleToggleSidebar()}>{user.name}</MenuItem>
           </div>
-          <MenuItem icon= {<AccountBoxIcon/>} component={<Link to="/" />}>Home</MenuItem>
-          <MenuItem icon= {<GroupIcon/>} component={<Link to="/employeesInfo" />}>Employee List</MenuItem>
-          <MenuItem icon= {<QuestionAnswerIcon/>} component={<Link to="/employeeRequests" />}>Employee Requests</MenuItem>
-          <MenuItem icon= {<PersonAddIcon/>} component={<Link to="/newAccount" />}>New Account</MenuItem>
-          <MenuItem icon= {<PasswordIcon/>} component={<Link to="/changePassword" />}>Change Password</MenuItem>
-          <MenuItem className='mt-auto' icon= {<LogoutIcon/>} component={<Link to="/login" />}>Logout</MenuItem>
+          {user.isAdmin ?
+            <>
+              <MenuItem icon= {<AccountBoxIcon/>} component={<Link to="/" />}>Home</MenuItem>
+              <MenuItem icon= {<GroupIcon/>} component={<Link to="/admin/employeesInfo" />}>Employee List</MenuItem>
+              <MenuItem icon= {<QuestionAnswerIcon/>} component={<Link to="/admin/employeeRequests" />}>Employee Requests</MenuItem>
+              <MenuItem icon= {<PersonAddIcon/>} component={<Link to="/admin/createAccount" />}>New Account</MenuItem>
+              <MenuItem icon= {<PasswordIcon/>} component={<Link to="/changePassword" />}>Change Password</MenuItem>
+              <MenuItem className='mt-auto' icon= {<LogoutIcon/>} component={<Link to="/login" />}>Logout</MenuItem>
+            </>:
+            <>
+              <MenuItem icon= {<AccountBoxIcon/>} component={<Link to="/" />}>Home</MenuItem>
+              <MenuItem icon={<SendRequest />} component={<Link to="/sendRequest" />}>Send Request</MenuItem>
+              <MenuItem icon= {<PasswordIcon/>} component={<Link to="/changePassword" />}>Change Password</MenuItem>
+              <MenuItem className='mt-auto' icon= {<LogoutIcon/>} component={<Link to="/login" />}>Logout</MenuItem>
+            </>
+          }
         </div>
       </Menu>
     </Sidebar>
