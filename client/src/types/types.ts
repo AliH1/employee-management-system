@@ -10,20 +10,25 @@ export type Employee = {
     status: string;
 }
 
-export interface message {
-    id: number;
+export interface MessageType {
     name: string;
     title: string;
     message: string;
     date: string;
 }
 
-export interface adminMessage extends message {
-    email: string;
-}
-
 export type User = {
     name: string;
     email: string;
     isAdmin: boolean;
+}
+
+export interface RequestType {
+    id: number;
+    name: string;
+    email: string;
+    status: string;
+    message: string;
+    reason: string;
+    date: string;
 }

@@ -1,7 +1,7 @@
-import Box from "@mui/material/Box";
-import { Employee } from "../../types/types";
-import { BarChart } from "@mui/x-charts";
-import { useMemo } from "react";
+import Box from '@mui/material/Box';
+import { Employee } from '../../types/types';
+import { BarChart } from '@mui/x-charts';
+import { useMemo } from 'react';
 
 export default function EmployeesChart({ employees }: { employees: Employee[] }) {
   let departments: string[] = [];
@@ -10,6 +10,7 @@ export default function EmployeesChart({ employees }: { employees: Employee[] })
 
   const getDepartmentStats = () => {
     for(const employee of employees){
+      if(employee.status !== 'Active') continue;
       if(!departments.includes(employee.department)){
         departments.push(employee.department);
         departmentSalaries.push(employee.salary);

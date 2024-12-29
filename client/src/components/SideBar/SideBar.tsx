@@ -9,8 +9,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PasswordIcon from '@mui/icons-material/Password';
 import {UserContext } from '../../Context/UserContext';
-import SendRequest from '../SendRequest/SendRequest';
-
+import SendIcon from '@mui/icons-material/Send';
 
 
 export default function SideBar(){
@@ -25,9 +24,9 @@ export default function SideBar(){
     <Sidebar
     collapsed={collapsed}
     rootStyles={{
-      position: "sticky",
+      position: 'sticky',
       top: 0,
-      height: "100vh",
+      height: '100vh',
       [`.${sidebarClasses.container}`]: {
         backgroundColor: '#3C3D37',
         marginRight: '-1px',
@@ -46,18 +45,18 @@ export default function SideBar(){
           </div>
           {user.isAdmin ?
             <>
-              <MenuItem icon= {<AccountBoxIcon/>} component={<Link to="/" />}>Home</MenuItem>
-              <MenuItem icon= {<GroupIcon/>} component={<Link to="/admin/employeesInfo" />}>Employee List</MenuItem>
-              <MenuItem icon= {<QuestionAnswerIcon/>} component={<Link to="/admin/employeeRequests" />}>Employee Requests</MenuItem>
-              <MenuItem icon= {<PersonAddIcon/>} component={<Link to="/admin/createAccount" />}>New Account</MenuItem>
-              <MenuItem icon= {<PasswordIcon/>} component={<Link to="/changePassword" />}>Change Password</MenuItem>
-              <MenuItem className='mt-auto' icon= {<LogoutIcon/>} component={<Link to="/login" />}>Logout</MenuItem>
+              <MenuItem icon= {<AccountBoxIcon/>} component={<Link to='/' />}>Home</MenuItem>
+              <MenuItem icon= {<GroupIcon/>} component={<Link to='/admin/employeesInfo' />}>Employee List</MenuItem>
+              <MenuItem icon= {<QuestionAnswerIcon/>} component={<Link to='/admin/employeeRequests' />}>Employee Requests</MenuItem>
+              <MenuItem icon= {<PersonAddIcon/>} component={<Link to='/admin/createAccount' />}>New Account</MenuItem>
+              <MenuItem icon= {<PasswordIcon/>} component={<Link to='/changePassword' />}>Change Password</MenuItem>
+              <MenuItem className='mt-auto' icon= {<LogoutIcon/>} component={<Link to='/login' />}>Logout</MenuItem>
             </>:
             <>
-              <MenuItem icon= {<AccountBoxIcon/>} component={<Link to="/" />}>Home</MenuItem>
-              <MenuItem icon={<SendRequest />} component={<Link to="/sendRequest" />}>Send Request</MenuItem>
-              <MenuItem icon= {<PasswordIcon/>} component={<Link to="/changePassword" />}>Change Password</MenuItem>
-              <MenuItem className='mt-auto' icon= {<LogoutIcon/>} component={<Link to="/login" />}>Logout</MenuItem>
+              <MenuItem icon= {<AccountBoxIcon/>} component={<Link to='/' />}>Home</MenuItem>
+              <MenuItem icon={<SendIcon />} component={<Link to='/sendRequest' />}>Send Request</MenuItem>
+              <MenuItem icon= {<PasswordIcon/>} component={<Link to='/changePassword' />}>Change Password</MenuItem>
+              <MenuItem className='mt-auto' icon= {<LogoutIcon/>} component={<Link to='/login' />}>Logout</MenuItem>
             </>
           }
         </div>

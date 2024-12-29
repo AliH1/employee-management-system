@@ -5,7 +5,6 @@ import Home from './components/Home/Home';
 import EmployeesInfo from './components/EmployeesInfo/EmployeesInfo';
 import EmployeeRequests from './components/EmployeeRequests/EmployeeRequests';
 import CreateAccount from './components/CreateAccount/CreateAccount';
-import { UserContext } from './Context/UserContext';
 import ChangePassword from './components/ChangePassword/ChangePassword';
 import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
 import Login from './components/Login/Login';
@@ -13,16 +12,6 @@ import SendRequest from './components/SendRequest/SendRequest';
 
 
 function App() {
-  const {user, setUser} = useContext(UserContext);
-
-  useEffect(() => {
-    setUser({
-      name: 'Admin',
-      email: 'admin@gmail.com',
-      isAdmin: true
-    });
-  }, [])
-
 
   const SidebarLayout = () => (
     <div className='flex stretch'>

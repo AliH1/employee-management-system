@@ -1,20 +1,20 @@
-import { useContext, useState } from "react";
-import { message } from "../../types/types";
-import { List } from "./GlobalMessages";
-import Message from "../Message/Message";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
+import { useContext, useState } from 'react';
+import { MessageType } from '../../types/types';
+import { List } from './GlobalMessages';
+import Message from '../Message/Message';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
 import {UserContext } from '../../Context/UserContext';
-import Button from "@mui/material/Button";
+import Button from '@mui/material/Button';
 import dayjs from 'dayjs';
-import ConfirmationAlert from "../ConfirmationAlert/ConfirmationAlert";
+import ConfirmationAlert from '../ConfirmationAlert/ConfirmationAlert';
 
 
 
 export default function Home() {
-  const [messages, setMessages] = useState<message[]>(List);
+  const [messages, setMessages] = useState<MessageType[]>(List);
   const [title, setTitle] = useState<string>('');
   const [messageBody, setMessageBody] = useState<string>('');
   const [titleError, setTitleError] = useState<string>('');
@@ -43,8 +43,7 @@ export default function Home() {
     }
     else{
       resetErrorMessages();
-      const message: message = {
-        id: messages.length + 1,
+      const message: MessageType = {
         title: title,
         name: user.name,
         message: messageBody,
@@ -91,14 +90,14 @@ export default function Home() {
             description='This message will be sent to all employees. This should only be used for important work related messages.'
             response={handleSend}>
             {(showDialog) => (
-              <Button onClick={showDialog} aria-label='send message' variant="outlined">Send</Button>)}
+              <Button onClick={showDialog} aria-label='send message' variant='outlined'>Send</Button>)}
           </ConfirmationAlert>
         </Box>
       </Box>
       <Typography variant='h5' className='text-center'>Company Message Board</Typography>
       <Stack className='gap-4 p-6'>
         {messages.slice(0).reverse().map((message, index) => (
-          <Message key={message.id} id={message.id} title={message.title} name={message.name} message={message.message} date={message.date} expand={index < 1}/>))
+          <Message key={index} {...message} expand={index < 1}/>))
         }
       </Stack>
     </Box>
