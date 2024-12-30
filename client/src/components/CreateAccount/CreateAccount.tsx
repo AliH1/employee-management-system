@@ -11,6 +11,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import { Alert, Snackbar } from '@mui/material';
 
 export default function CreateAccount() {
@@ -25,6 +27,7 @@ export default function CreateAccount() {
   const [dayHired, setDayHired] = useState<Dayjs | null>(dayjs());
   const [salary, setSalary] = useState<number>(0);
   const [status, setStatus] = useState<string>('Active');
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [NameError, setNameError] = useState<string>('');
   const [EmailError, setEmailError] = useState<string>('');
   const [PasswordError, setPasswordError] = useState<string>('');
@@ -189,6 +192,7 @@ export default function CreateAccount() {
             <MenuItem value='Terminated'>Terminated</MenuItem>
           </Select>
         </FormControl>
+        <FormControlLabel control={<Checkbox />} label='Does this user have admin permissions' value={isAdmin}/>
         <Button type='submit' variant='contained'>Create Account</Button>
         <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                   open={openAlert}
