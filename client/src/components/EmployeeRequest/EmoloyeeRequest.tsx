@@ -57,14 +57,14 @@ export default function EmployeeRequest({ id, name, email, message, reason, date
             aria-controls='panel1-content'
             id='panel1-header'
           >
-            <Typography component='span' sx={{ width: '40%', flexShrink: 0, fontWeight: 'bold' }}>
+            <Typography component='span' sx={{ width: '30%', flexShrink: 0, fontWeight: 'bold' }}>
               {reason}
             </Typography>
             <Typography component='span' sx={{ width: '50%', flexShrink: 0, color: 'text.secondary' }}>
               {name} ({email})
             </Typography>
-            <Typography component='span'>
-              {date}
+            <Typography component='span' sx={{color: 'text.secondary'}}>
+              {date.format('lll')}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>

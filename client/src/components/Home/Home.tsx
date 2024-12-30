@@ -47,7 +47,7 @@ export default function Home() {
         title: title,
         name: user.name,
         message: messageBody,
-        date: dayjs().format('MM/DD/YYYY')
+        date: dayjs()
       };
       setMessages([...messages, message]);
       setTitle('');

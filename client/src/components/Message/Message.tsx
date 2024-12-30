@@ -24,8 +24,8 @@ export default function Message({ title, name, message, date, expand} : MessageP
           <Typography component='span' sx={{ width: '30%', flexShrink: 0, color: 'text.secondary' }}>
              {name}
           </Typography>
-          <Typography component='span'>
-            {date}
+          <Typography component='span' sx={{color: 'text.secondary'}}>
+            {date.format('lll')}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>

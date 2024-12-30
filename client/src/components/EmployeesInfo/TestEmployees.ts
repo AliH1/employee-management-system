@@ -1,6 +1,4 @@
-import dayjs from 'dayjs';
-
-const date: string = dayjs().format('MM/DD/YYYY');
+const date: Date = new Date();
 
 export const List = [
   {id: 1, name: 'John Doe', email: 'Jhon@gmail.com', phone: '000-000-000', department: 'IT', position: 'full stack developer', dateHired: date, salary: 80000, status: 'Active'},

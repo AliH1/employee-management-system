@@ -1,6 +1,6 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs} from 'dayjs';
 
-const date: string = dayjs().format('MM/DD/YYYY');
+const date: Dayjs = dayjs();
 
 
 export const List = [

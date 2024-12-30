@@ -35,7 +35,7 @@ export default function SendRequest() {
       status: 'Pending',
       message: message,
       reason: reason,
-      date: dayjs().format('MM/DD/YYYY')
+      date: dayjs()
     }
     //add to backend DB and fetch requests instead of set
     setRequests([...requests, newRequest]);
@@ -81,7 +81,7 @@ export default function SendRequest() {
         </Box>
       </Box>
       <Typography variant='h5' className='text-center'>Your Requests</Typography>
-      <Stack className='p-4 gap-16 w-4/5'>
+      <Stack className='p-4 gap-16 w-11/12'>
         {requests.slice(0).reverse().map((request) => (
           <EmployeeRequest key={request.id} {...request}/>))
         }

@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 export type Employee = {
     id: number;
     name: string;
@@ -5,7 +7,7 @@ export type Employee = {
     phone: string;
     department: string;
     position: string;
-    dateHired: string;
+    dateHired: Date;
     salary: number;
     status: string;
 }
@@ -14,7 +16,7 @@ export interface MessageType {
     name: string;
     title: string;
     message: string;
-    date: string;
+    date: Dayjs;
 }
 
 export type User = {
@@ -30,5 +32,5 @@ export interface RequestType {
     status: string;
     message: string;
     reason: string;
-    date: string;
+    date: Dayjs;
 }

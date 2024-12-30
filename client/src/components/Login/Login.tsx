@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Login() {
   const {setUser} = useContext(UserContext);
   const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>();
+  const [password, setPassword] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
 
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export default function Login() {
     setUser({
       name: 'Admin',
       email: email,
-      isAdmin: true
+      isAdmin: false
     })
     navigate('/');
   }

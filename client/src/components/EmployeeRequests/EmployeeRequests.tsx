@@ -22,7 +22,7 @@ export default function EmployeeRequests() {
   return (
     <Box className='flex flex-col items-center'>
       <Typography variant='h5' className='text-center'>Employee Requests</Typography>
-      <Stack className='p-4 gap-16 w-4/5'>
+      <Stack className='p-4 gap-16 w-11/12'>
         {requests.map((request) => <EmployeeRequest key={request.id} {...request} handleStatusUpdate={handleStatusUpdate}/>)}
       </Stack>
     </Box>
