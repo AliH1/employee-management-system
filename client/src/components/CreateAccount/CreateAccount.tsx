@@ -14,6 +14,8 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { Alert, Snackbar } from '@mui/material';
+import { v4 as uuidv4 } from 'uuid';
+import { registerEmployee } from '../../api/api';
 
 export default function CreateAccount() {
   const [openAlert , setOpenAlert] = useState<boolean>(false);
@@ -24,7 +26,7 @@ export default function CreateAccount() {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [department, setDepartment] = useState<string>('');
   const [position, setPosition] = useState<string>('');
-  const [dayHired, setDayHired] = useState<Dayjs | null>(dayjs());
+  const [startDate, setStartDate] = useState<Dayjs>(dayjs());
   const [salary, setSalary] = useState<number>(0);
   const [status, setStatus] = useState<string>('Active');
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
@@ -38,7 +40,6 @@ export default function CreateAccount() {
   const [SalaryError, setSalaryError] = useState<string>('');
 
   const handleSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //this will only allow them to input numbers or no change
     if(Number(e.target.value) >= 0) {
       setSalary(Number(e.target.value));
     }
@@ -64,7 +65,7 @@ export default function CreateAccount() {
     return re.test(phoneNumber);
   }
 
-  const handelSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handelSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     resetErrorMessages();
     if(name === '') {
@@ -109,16 +110,29 @@ export default function CreateAccount() {
     else {
       resetErrorMessages();
       //store employee in DB and create account
-      setOpenAlert(true);
-      setName('');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
-      setPhoneNumber('');
-      setDepartment('');
-      setPosition('');
-      setDayHired(dayjs());
-      setSalary(0);
+      const createEmployee  = await registerEmployee({_id: uuidv4(), name, email, password, phoneNumber, department, position, startDate, salary, status, isAdmin});
+      if(createEmployee.message === 'Employee registered successfully'){
+        setOpenAlert(true);
+        setName('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+        setPhoneNumber('');
+        setDepartment('');
+        setPosition('');
+        setStartDate(dayjs());
+        setSalary(0);
+        setIsAdmin(false);
+      }
+      else{
+        if(createEmployee.response.data.message === 'Account with this email already exists'){
+          setEmailError('An employee with this email already exists');
+        }
+        else{
+          setEmailError(createEmployee.response.data.message);
+        }
+      }
+
     }
   }
 
@@ -175,8 +189,8 @@ export default function CreateAccount() {
           <DateField
             required
             label='Date Hired'
-            value={dayHired}
-            onChange={(newValue) => setDayHired(newValue)}/>
+            value={startDate}
+            onChange={(newValue) => {if(newValue==null){setStartDate(dayjs())} else{setStartDate(newValue)}}}/>
         </LocalizationProvider>
         <TextField value={salary}
                     required
@@ -192,7 +206,7 @@ export default function CreateAccount() {
             <MenuItem value='Terminated'>Terminated</MenuItem>
           </Select>
         </FormControl>
-        <FormControlLabel control={<Checkbox />} label='Does this user have admin permissions' value={isAdmin}/>
+        <FormControlLabel control={<Checkbox />} label='Does this user have admin permissions' value={isAdmin} onChange={() => setIsAdmin(!isAdmin)}/>
         <Button type='submit' variant='contained'>Create Account</Button>
         <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                   open={openAlert}

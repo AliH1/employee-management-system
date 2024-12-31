@@ -14,33 +14,35 @@ import { useContext, useState } from 'react';
 import FormLabel from '@mui/material/FormLabel';
 
 interface EmployeeRequestProps extends RequestType {
-  handleStatusUpdate?: (id: number, status: string) => void;
+  handleStatusUpdate?: (_id: string, status: string) => void;
 }
 
-export default function EmployeeRequest({ id, name, email, message, reason, date, handleStatusUpdate} : EmployeeRequestProps) {
+export default function EmployeeRequest({ _id, name, email, message, reason, date, status, handleStatusUpdate} : EmployeeRequestProps) {
   const {user} = useContext(UserContext);
-  const [status, setStatus] = useState<string>('Pending');
-  const [color, setColor] = useState<string>('lightblue');
+  const [myStatus, setMyStatus] = useState<string>(status);
+  const myColor = status === 'Pending' ? 'lightblue' : status === 'Approved' ? 'green' : 'red';
+  const [color, setColor] = useState<string>(myColor);
 
   const handleStatusChange = (e: SelectChangeEvent<string>) => {
-    setStatus(e.target.value)
+    setMyStatus(e.target.value)
     if(e.target.value === 'Pending')
       setColor('lightblue');
     if(e.target.value === 'Approved')
       setColor('green');
     if(e.target.value === 'Rejected')
       setColor('red');
-    if(handleStatusUpdate !== undefined)
-      handleStatusUpdate(id, e.target.value);
+    if(handleStatusUpdate !== undefined && user.isAdmin){
+      handleStatusUpdate(_id, e.target.value);
+    }
   }
 
   return (
-    <div key={id} className='w-full border border-white rounded-sm'>
+    <div className='w-full border border-white rounded-sm'>
       <Box className='flex flex-col items-center p-4 gap-4'>
         {user.isAdmin ?
         <FormControl fullWidth>
           <InputLabel id='status-label'>Status</InputLabel>
-          <Select size='small' sx={{color: {color}}} labelId='status-label' label='Status' value={status} onChange={handleStatusChange} id='status-select'>
+          <Select size='small' sx={{color: {color}}} labelId='status-label' label='Status' value={myStatus} onChange={handleStatusChange} id='status-select'>
             <MenuItem value='Pending'>Pending</MenuItem>
             <MenuItem value='Approved'>Approved</MenuItem>
             <MenuItem value='Rejected'>Rejected</MenuItem>
@@ -48,7 +50,7 @@ export default function EmployeeRequest({ id, name, email, message, reason, date
         </FormControl> :
         <div className='flex flex-row gap-2'>
           <FormLabel sx={{fontWeight: 'bold'}}>Status:</FormLabel>
-          <FormLabel sx={{color: {color}, fontWeight: 'bold'}}>{status}</FormLabel>
+          <FormLabel sx={{color: {color}, fontWeight: 'bold'}}>{myStatus}</FormLabel>
         </div>
         }
         <Accordion className='w-full'>

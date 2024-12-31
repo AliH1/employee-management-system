@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { RequestType } from '../../types/types';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
@@ -13,6 +13,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
+import { v4 as uuidv4 } from 'uuid';
+import {createEmployeeRequest} from '../../api/api';
+import {getMyEmployeeRequests} from '../../api/api';
 
 export default function SendRequest() {
     const [requests, setRequests] = useState<RequestType[]>([]);
@@ -22,14 +25,30 @@ export default function SendRequest() {
     const [messageError, setMessageError] = useState<string>('');
 
   // useEffect to fetch list of Requests with current email
-  const handleSend = () => {
+  useEffect(() => {
+    const fetchRequests = async() => {
+      const myRequests = await getMyEmployeeRequests(user.email);
+      if(myRequests.message === 'Requests fetched successfully'){
+        myRequests.requests.forEach((request: RequestType) => {
+          request.date = dayjs(request.date);
+        });
+        console.log(myRequests.requests);
+        setRequests(myRequests.requests);
+      }
+      else{
+        console.log(myRequests.response.data.message);
+      }
+    }
+    fetchRequests();
+  }, [user.email]);
+
+  const handleSend = async() => {
     if(message === '') {
       setMessageError('Message is required');
       return;
     }
-
     const newRequest = {
-      id: requests.length + 1, //remove id when connected to backend
+      _id: uuidv4(),
       name: user.name,
       email: user.email,
       status: 'Pending',
@@ -37,10 +56,15 @@ export default function SendRequest() {
       reason: reason,
       date: dayjs()
     }
-    //add to backend DB and fetch requests instead of set
-    setRequests([...requests, newRequest]);
-    setMessage('');
-    setReason('');
+    const createRequest = await createEmployeeRequest(newRequest);
+    if(createRequest.message === 'Employee request created successfully'){
+      setRequests([...requests, newRequest]);
+      setMessage('');
+      setReason('');
+    }
+    else {
+      setMessageError(createRequest.response.data.message);
+    }
   }
 
   return (
@@ -83,7 +107,7 @@ export default function SendRequest() {
       <Typography variant='h5' className='text-center'>Your Requests</Typography>
       <Stack className='p-4 gap-16 w-11/12'>
         {requests.slice(0).reverse().map((request) => (
-          <EmployeeRequest key={request.id} {...request}/>))
+          <EmployeeRequest key={request._id} {...request}/>))
         }
       </Stack>
     </Box>

@@ -8,6 +8,5 @@ type PrivateRouteProps = {
 
 export const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const { user } = useContext(UserContext);
-  console.log(user.name);
   return user.name !== '' ? children : <Navigate to='/login'/>;
 };

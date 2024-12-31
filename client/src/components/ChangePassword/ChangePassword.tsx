@@ -5,9 +5,11 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import Snackbar from '@mui/material/Snackbar';
+import { changePassword } from '../../api/api';
 
 export default function ChangePassword() {
   const [openAlert , setOpenAlert] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
   const [currentPassword, setCurrentPassword] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
@@ -22,7 +24,7 @@ export default function ChangePassword() {
     setConfirmNewPasswordError('');
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     resetErrorMessages();
     if(currentPassword === '') {
@@ -35,15 +37,20 @@ export default function ChangePassword() {
       setNewPasswordError('Password must be at least 8 characters');
     }
     else if(newPassword !== confirmNewPassword) {
-      setConfirmNewPassword('Passwords do not match');
+      setConfirmNewPasswordError('Passwords do not match');
     }
     else {
-      resetErrorMessages();
-      //store need password in DB and if currentpassword matches
-      setOpenAlert(true);
-      setCurrentPassword('');
-      setNewPassword('');
-      setConfirmNewPassword('');
+      const checkPassword = await changePassword({ email: email, password: newPassword, currentPassword });
+      if(checkPassword.message === 'Password changed successfully'){
+        resetErrorMessages();
+        setOpenAlert(true);
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmNewPassword('');
+      }
+      else {
+        setCurrentPasswordError(checkPassword.response.data.message);
+      }
     }
   }
 
@@ -53,6 +60,11 @@ export default function ChangePassword() {
       <Box component='form' onSubmit={handleSubmit} className='flex flex-row justify-center w-full gap-4'>
         <Box className='w-4/5'>
           <Box className='flex flex-col gap-4'>
+            <TextField value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    id='email'
+                    label='Email'
+                    fullWidth/>
             <TextField value={currentPassword}
                     error={currentPasswordError !== ''}
                     helperText={currentPasswordError}

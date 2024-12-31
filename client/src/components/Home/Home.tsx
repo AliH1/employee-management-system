@@ -1,6 +1,5 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { MessageType } from '../../types/types';
-import { List } from './GlobalMessages';
 import Message from '../Message/Message';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
@@ -10,11 +9,11 @@ import {UserContext } from '../../Context/UserContext';
 import Button from '@mui/material/Button';
 import dayjs from 'dayjs';
 import ConfirmationAlert from '../ConfirmationAlert/ConfirmationAlert';
-
-
+import { v4 as uuidv4 } from 'uuid';
+import {getAllEmployeeMessages, createEmployeeMessage} from '../../api/api';
 
 export default function Home() {
-  const [messages, setMessages] = useState<MessageType[]>(List);
+  const [messages, setMessages] = useState<MessageType[]>([]);
   const [title, setTitle] = useState<string>('');
   const [messageBody, setMessageBody] = useState<string>('');
   const [titleError, setTitleError] = useState<string>('');
@@ -26,8 +25,23 @@ export default function Home() {
     setMessageError('');
   }
 
+  useEffect(() => {
+    const fetchMessages = async() => {
+      const allMessages = await getAllEmployeeMessages();
+      if(allMessages.message === 'Messages fetched successfully') {
+        allMessages.messages.forEach((message: MessageType) => {
+          message.date = dayjs(message.date);
+        });
+        setMessages(allMessages.messages);
+      }
+      else{
+        console.log('Error fetching messages');
+      }
+    }
+    fetchMessages();
+  }, []);
 
-  const handleSend = () => {
+  const handleSend = async() => {
     resetErrorMessages();
     if(messageBody === '') {
       setMessageError('Fill out message');
@@ -44,14 +58,22 @@ export default function Home() {
     else{
       resetErrorMessages();
       const message: MessageType = {
+        _id: uuidv4(),
+        email: user.email,
         title: title,
         name: user.name,
         message: messageBody,
         date: dayjs()
       };
-      setMessages([...messages, message]);
-      setTitle('');
-      setMessageBody('');
+      const createMessage = await createEmployeeMessage(message);
+      if(createMessage.message === 'Message created successfully') {
+        setMessages([...messages, message]);
+        setMessageBody('');
+        setTitle('');
+      }
+      else{
+        setMessageError('Error sending message');
+      }
     }
   }
 
@@ -95,9 +117,9 @@ export default function Home() {
         </Box>
       </Box>
       <Typography variant='h5' className='text-center'>Company Message Board</Typography>
-      <Stack className='gap-4 p-6'>
+      <Stack className='gap-4 p-6 w-11/12'>
         {messages.slice(0).reverse().map((message, index) => (
-          <Message key={index} {...message} expand={index < 1}/>))
+          <Message key={message._id} {...message} expand={index < 1}/>))
         }
       </Stack>
     </Box>

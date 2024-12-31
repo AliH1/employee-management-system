@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../Context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { loginEmployee } from '../../api/api';
 
 export default function Login() {
   const {setUser} = useContext(UserContext);
@@ -14,16 +15,23 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    //if password and email don't match in DB, set passwordError
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // get name and isAdmin from DB and assign to user
-    setUser({
-      name: 'Admin',
-      email: email,
-      isAdmin: false
-    })
-    navigate('/');
+    //if password and email don't match in DB, set passwordError
+    const submit = await loginEmployee({email, password});
+    if(submit.message === 'Login successful'){
+      const {name, email, isAdmin} = submit.user;
+      setUser({
+        name: name,
+        email: email,
+        isAdmin: isAdmin
+      })
+      navigate('/');
+    }
+    else{
+      console.log(submit.response.data.message);
+      setPasswordError(submit.response.data.message);
+    }
   }
 
   return (
@@ -42,6 +50,7 @@ export default function Login() {
             <TextField value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     error={passwordError !== ''}
+                    helperText={passwordError}
                     type='password'
                     required
                     id='password'
