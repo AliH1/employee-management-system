@@ -15,7 +15,7 @@ I decided to use UUID for _id to determine uniqueness of messages/requests/emplo
 fetch ids from mongoDB. Also UUID was needed for employee accounts because although employee emails are unique they can be changed so a uuid is needed to distinguish those employees for update calls when email is updated.   
 
  ## Technology
- Frontend: React, Typescript, Vite, Material UI
+ Frontend: React, Typescript, Vite, Material UI <br />
  Backend: Node.js, Express.js, MongoDB, Javascript
 
 ## Demo video:
